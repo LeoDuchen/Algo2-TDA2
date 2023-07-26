@@ -1,0 +1,46 @@
+-¿Qué es lo entregado?
+
+Lo entregado es el TDA (Tipo de Dato Abstracto) árbol de búsqueda binario.
+
+Para compilar lo entregado el usuario tiene que mover todos los archivos (pruebas.c, abb.c, abb.h y pa2mm.h; este último es prestado de Lucas y contiene malas prácticas) a alguna carpeta y abrir la terminal. En la terminal escribe:
+
+gcc *.c -o abb -g -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O0 -> El gcc es el lenguaje C, el *.c dice que compile todos los archivos que terminen en .c, abb es el nombre del compilado y lo demás son los flags de warning para el código.
+
+Con la siguiente línea se ejecuta el programa:
+
+./abb
+
+Si el usuario quiere ver si el programa pierde memoria o tiene errores, ppuede correr Valgrind con la siguiente línea:
+
+valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./abb
+
+El código funciona creando un árbol primero, reservando memoria para este. El usuario puede insertar elementos en este árbol. Si el árbol no tiene elementos, el primero insertado estará en el nodo raíz del árbol. Si tiene elementos el árbol, compara cada elemento dependiendo si es mayor o menor al que se quiere insertar. Los elementos insertados se les llama hojas. Si una hoja tiene hijos, deja de ser hoja. Para borrar elementos es un proceso más complicado. Si el elemento que se queire eliminar es una hoja, se borra y el anterior apunta a NULL. Si tiene un único hijo, el anterior apunta al hijo de este y se borra. Si tiene dos hijos, se sustituye por el mayor hijo de los menores.
+El usuario puede buscar el elemento que desee, pero si hay dos elementos repetidos se devolvera el primero que encuentre. arbol_raiz devuelve el elemento almacenado como raíz y arbol_vacio comprueba si existe un nodo raíz, si no existe el árbol esta vacío.
+El árbol se puede recorrer de tres maneras: inorden, primero se visita el sub-árbol izquierdo, luego el nodo actual y por último el sub-árbol derecho; preorden, primero se visita el nodo actual luego el sub-árbol izquierdo y por último el sub-árbol derecho; y postorden, primero se visita el sub-árbol izquierdo luego el sub-árbol derecho y por último el nodo actual.
+Para destruir el árbol, recorre postorden cada nodo y libera uno por uno.
+El iterador interno recorre el árbol de una de estas tres maneras, pero puede parar si la función que se le asigno devuelve true.
+
+-¿Qué es un ABB y cómo se diferencia de un Árbol Binario?
+
+Un ABB es Árbol Binario de Búsqueda. Este puede ser vacío o consistir en un nodo llamado raíz conjuntamente con dos árboles binarios, uno llamado derecha y otro llamado izquierda ambos respecto del nodo raíz. Cada nodo del mismo puede contener un valor clave que satisfaga las siguientes condiciones: la clave en el nodo izquierdo del hijo (si existe) es menor que la clave en el nodo padre, la clave en el nodo derecho del hijo (si existe) es mayor que la clave en el nodo padre, y los árboles derecho e izquierdo son también árboles binarios de búsqueda.
+Se diferencia del Árbol Binario al tener una regla para poder insertar en él los elementos.
+
+-¿Cuál es el objetivo de tener una función de destrucción en el TDA y qué implicaría para el usuario no tenerla?
+
+El objetivo de la función de destrucción, es la de liberar los elementos que hayan reservado memoria previamente. El usuario maneja esto. Si el usuario quiere reservar memoria para los elementos, tendrá que crear un árbol con un destructor de elementos o de lo contrario perderá memoria. Si el usuario no quiere reservar memoria para los elementos, con poner NULL en lugar del destructor es suficiente.
+
+-¿Cuál es la complejidad de las diferentes operaciones del ABB?
+
+arbol_crear, arbol_raiz y arbol_vacio tienen complejidad O(1) ya que no necesitan recorrer el árbol.
+
+arbol_insertar, arbol_borrar y arbol_buscar tienen complejidad O(log(n)) en el peor de los casos ya que solo recorren unos nodos dependiendo si el elemento es mayor o menor del nodo actual. Si el árbol esta vacío, la complejidad sería O(1).
+
+arbol_recorrido_inorden, arbol_recorrido_preorden, arbol_arbol_recorrido_postorden y el iterador interno abb_con_cada_elemento tienen complejidad O(n) en el peor de los casos, donde tienen que recorrer todo el árbol, O(log(n)) si solo tienen que recorrer algunos nodos dependiendo cuantos elementos se quiere recorrer o la función que recibe el iterador, y O(1) si el árbol esta vacío. 
+
+arbol_destruir tiene complejidad O(n) ya que tiene que recorrer todos los nodos del árbol, sin excepciones. Si esta vacío, es O(1).
+
+Puede que el árbol se degenere en lista, y las funciones con complejidad O(log(n)) pasen a ser O(n).
+
+-Fuentes
+
+Mariano Méndez. (2020). Algoritmos y Programación II Tda Árbol. Facultad de Ingeniería. Universidad de Buenos Aires.
