@@ -1,2 +1,3 @@
-# Algo2-TDA2
-Segundo TDA para Algoritmos y Programación II, FIUBA, 2C-2020
+# TDA 2 de Algoritmos y Programación II
+
+TDA 2 de Algoritmos y Programación II de FIUBA (Cátedra Méndez)
